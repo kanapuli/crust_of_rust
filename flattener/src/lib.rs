@@ -47,7 +47,26 @@ where
         }
     }
 }
+impl <O> DoubleEndedIterator for Flatten<O>
+where
+    O: Iterator + DoubleEndedIterator,  // this can be just DoubleEndedIterator because DoubleEndedIterator implements Iterator already
+    O::Item: IntoIterator,
+    <O::Item as IntoIterator>::IntoIter: DoubleEndedIterator,
+{
+  fn next_back(&mut self) -> Option<Self::Item> {
+        loop {
+            if let Some(ref mut inner_iter) = self.inner {
+                if let Some(i) = inner_iter.next_back() {
+                    return Some(i);
+                }
+                self.inner = None;
+            }
+            let next_inner_iter = self.outer.next_back()?.into_iter();
+            self.inner = Some(next_inner_iter);
+        }
+  }
 
+}
 #[cfg(test)]
 mod tests {
     use super::*;
