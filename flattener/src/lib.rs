@@ -18,7 +18,7 @@ where
 impl<O> Flatten<O>
 where
     O: Iterator,
-    O::Item: IntoIterator
+    O::Item: IntoIterator,
 {
     fn new(iter: O) -> Self {
         Flatten {
@@ -35,15 +35,16 @@ where
 {
     type Item = <O::Item as IntoIterator>::Item;
     fn next(&mut self) -> Option<Self::Item> {
-        if let Some(ref mut inner_iter) = self.inner {
-            if let Some(i) = inner_iter.next() {
-                return Some(i);
+        loop {
+            if let Some(ref mut inner_iter) = self.inner {
+                if let Some(i) = inner_iter.next() {
+                    return Some(i);
+                }
+                self.inner = None;
             }
-            self.inner = None;
+            let next_inner_iter = self.outer.next()?.into_iter();
+            self.inner = Some(next_inner_iter);
         }
-        let inner_item = self.outer.next()?;
-        let mut inner_iter = inner_item.into_iter();
-        inner_iter.next()
     }
 }
 
