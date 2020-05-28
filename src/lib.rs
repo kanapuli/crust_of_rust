@@ -32,4 +32,8 @@ mod tests {
   fn empty() {
     assert_eq!(flatten(std::iter::empty::<Vec<()>>()).count() , 0)
   }
+  #[test]
+  fn one_item() {
+    assert_eq!(flatten(std::iter::once(vec!["a"])).count() , 1)
+  }
 }
