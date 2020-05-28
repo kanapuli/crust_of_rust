@@ -1,9 +1,9 @@
-pub fn flatten<I>(iter: I) -> Flatten<I>
+pub fn flatten<I>(iter: I) -> Flatten<I::IntoIter>
 where
-    I: Iterator,
+    I: IntoIterator,
     I::Item: IntoIterator,
 {
-    Flatten::new(iter)
+    Flatten::new(iter.into_iter())
 }
 
 pub struct Flatten<O>
@@ -58,7 +58,7 @@ mod tests {
     #[test]
     fn empty_wide() {
         assert_eq!(
-            flatten(vec![Vec::<()>::new(), vec![], vec![], vec![]].into_iter()).count(),
+            flatten(vec![Vec::<()>::new(), vec![], vec![], vec![]]).count(),
             0
         )
     }
@@ -72,6 +72,6 @@ mod tests {
     }
     #[test]
     fn two_wide() {
-        assert_eq!(flatten(vec![vec!["a"], vec!["b"]].into_iter()).count(), 2)
+        assert_eq!(flatten(vec![vec!["a"], vec!["b"]]).count(), 2)
     }
 }
