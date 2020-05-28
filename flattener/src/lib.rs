@@ -47,6 +47,8 @@ where
         }
     }
 }
+
+//DoubleEndedIterator can be implemented only to objects that have implemented Iterator trait
 impl <O> DoubleEndedIterator for Flatten<O>
 where
     O: Iterator + DoubleEndedIterator,  // this can be just DoubleEndedIterator because DoubleEndedIterator implements Iterator already
@@ -92,5 +94,13 @@ mod tests {
     #[test]
     fn two_wide() {
         assert_eq!(flatten(vec![vec!["a"], vec!["b"]]).count(), 2)
+    }
+
+    //Tests for DoubleEndedIterator 
+    #[test]
+    fn reverse() {
+        assert_eq!(flatten(std::iter::once(vec!["a", "b"]))
+          .rev()
+          .collect::<Vec<_>>(), vec!["b", "a"])
     }
 }
