@@ -103,4 +103,10 @@ mod tests {
           .rev()
           .collect::<Vec<_>>(), vec!["b", "a"])
     }
+    #[test]
+    fn reverse_wide() {
+        assert_eq!(flatten(vec![vec!["a"], vec!["b"]])
+          .rev()
+          .collect::<Vec<_>>(), vec!["b", "a"])
+    }
 }
