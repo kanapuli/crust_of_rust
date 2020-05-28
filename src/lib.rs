@@ -21,6 +21,6 @@ where
 {
   type Item = <O::Item as IntoIterator>::Item;
   fn next(&mut self) -> Option<Self::Item> {
-    None
+    self.outer.next().and_then(|inner| { inner.into_iter().next()})
   }
 }
