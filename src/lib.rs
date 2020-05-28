@@ -36,4 +36,8 @@ mod tests {
   fn one_item() {
     assert_eq!(flatten(std::iter::once(vec!["a"])).count() , 1)
   }
+  #[test]
+  fn two_item() {
+    assert_eq!(flatten(std::iter::once(vec!["a","b"])).count() , 2)
+  }
 }
