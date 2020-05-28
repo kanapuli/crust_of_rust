@@ -40,4 +40,8 @@ mod tests {
   fn two_item() {
     assert_eq!(flatten(std::iter::once(vec!["a","b"])).count() , 2)
   }
+  #[test]
+  fn two_wide() {
+    assert_eq!(flatten( vec![vec!["a"],vec!["b"]].into_iter()).count(), 2)
+  }
 }
