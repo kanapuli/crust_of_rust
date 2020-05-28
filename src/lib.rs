@@ -24,3 +24,12 @@ where
     self.outer.next().and_then(|inner| { inner.into_iter().next()})
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+  #[test]
+  fn empty() {
+    assert_eq!(flatten(std::iter::empty::<Vec<()>>()).count() , 0)
+  }
+}
